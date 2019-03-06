@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">BilGram</string>
+    <string name="add_post">Add Post</string>
+    <string name="enter_post_description">Enter post description</string>
+    <string name="post">POST</string>
+    <string name="post_hint">Click to see gallery or shake your phone for camera</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="liked_posts">Liked Posts</string>
+    <string name="e_mail">E-mail</string>
+    <string name="password">Password</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="privacy_policy">Privacy Policy</string>
+</resources>
