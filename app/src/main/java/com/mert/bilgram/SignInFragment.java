@@ -38,7 +38,7 @@ public class SignInFragment extends Fragment {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signIn(v);
+                signIn();
             }
         });
 
@@ -99,7 +99,7 @@ public class SignInFragment extends Fragment {
     }
 
 
-    public void signIn(View view) {
+    public void signIn() {
 
         hideKeyboard(getActivity());
 

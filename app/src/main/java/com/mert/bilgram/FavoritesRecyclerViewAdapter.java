@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-public class FavsRecyclerViewAdapter extends RecyclerView.Adapter<FavsRecyclerViewAdapter.ViewHolder> {
+public class FavoritesRecyclerViewAdapter extends RecyclerView.Adapter<FavoritesRecyclerViewAdapter.ViewHolder> {
 
     private final ArrayList<String> userEmail;
     private final ArrayList<String> postDesc;
@@ -22,7 +22,7 @@ public class FavsRecyclerViewAdapter extends RecyclerView.Adapter<FavsRecyclerVi
     private final Activity context;
     private final FavoritesActivity favoritesActivity;
 
-    FavsRecyclerViewAdapter(ArrayList<String> userEmail, ArrayList<String> postDesc, ArrayList<String> userImage, Activity context, FavoritesActivity favoritesActivity) {
+    FavoritesRecyclerViewAdapter(ArrayList<String> userEmail, ArrayList<String> postDesc, ArrayList<String> userImage, Activity context, FavoritesActivity favoritesActivity) {
         this.userEmail = userEmail;
         this.postDesc = postDesc;
         this.userImage = userImage;
@@ -32,7 +32,7 @@ public class FavsRecyclerViewAdapter extends RecyclerView.Adapter<FavsRecyclerVi
 
     @NonNull
     @Override
-    public FavsRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public FavoritesRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recycler_view, viewGroup, false);
 
@@ -40,19 +40,17 @@ public class FavsRecyclerViewAdapter extends RecyclerView.Adapter<FavsRecyclerVi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final FavsRecyclerViewAdapter.ViewHolder viewHolder, final int i) {
+    public void onBindViewHolder(@NonNull final FavoritesRecyclerViewAdapter.ViewHolder viewHolder, int i) {
 
         Glide.with(context).load(userImage.get(i)).into(viewHolder.imageView);
         viewHolder.userEmail.setText(userEmail.get(i));
         viewHolder.postDesc.setText(postDesc.get(i));
 
-
         viewHolder.parentLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                //remove post from favs
 
-                favoritesActivity.unSave(i);
+                favoritesActivity.unSave(viewHolder.getAdapterPosition());
 
                 return true;
             }

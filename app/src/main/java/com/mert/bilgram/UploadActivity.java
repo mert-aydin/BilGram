@@ -43,7 +43,7 @@ public class UploadActivity extends AppCompatActivity {
 
     private static final int REQUEST_PICK_IMAGE = 111;
     ImageView postImage;
-    EditText postdesc;
+    EditText postDesc;
     ShakeListener mShaker;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference myRef;
@@ -72,7 +72,7 @@ public class UploadActivity extends AppCompatActivity {
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
         postImage = findViewById(R.id.postImageView);
-        postdesc = findViewById(R.id.postDescET);
+        postDesc = findViewById(R.id.postDescET);
         postBtn = findViewById(R.id.postBtn);
 
 
@@ -149,7 +149,7 @@ public class UploadActivity extends AppCompatActivity {
         Toast.makeText(this, "Posting...", Toast.LENGTH_LONG).show();
 
         postBtn.setEnabled(false);
-        postdesc.setEnabled(false);
+        postDesc.setEnabled(false);
         mShaker.pause();
         postImage.setEnabled(false);
 
@@ -169,15 +169,15 @@ public class UploadActivity extends AppCompatActivity {
 
                         FirebaseUser user = mAuth.getCurrentUser();
 
-                        String useremail = user.getEmail();
+                        String userEmail = user.getEmail();
 
-                        String desc = postdesc.getText().toString();
+                        String desc = postDesc.getText().toString();
 
                         UUID uuid = UUID.randomUUID();
                         final String postId = uuid.toString();
                         String time = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
 
-                        myRef.child("Posts").child(time + postId).child("useremail").setValue(useremail);
+                        myRef.child("Posts").child(time + postId).child("useremail").setValue(userEmail);
                         myRef.child("Posts").child(time + postId).child("postDesc").setValue(desc);
                         myRef.child("Posts").child(time + postId).child("downloadURL").setValue(downloadURL);
                         myRef.child("Posts").child(time + postId).child("ID").setValue(time + postId);

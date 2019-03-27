@@ -42,7 +42,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
 
         Glide.with(context).load(userImage.get(i)).into(viewHolder.imageView);
         viewHolder.userEmail.setText(userEmail.get(i));
@@ -51,7 +51,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         viewHolder.parentLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                return feedActivity.itemLongClicked(i);
+                return feedActivity.itemLongClicked(viewHolder.getAdapterPosition());
             }
         });
 

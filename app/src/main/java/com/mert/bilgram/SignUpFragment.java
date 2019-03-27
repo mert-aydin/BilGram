@@ -38,7 +38,7 @@ public class SignUpFragment extends Fragment {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signUp(v);
+                signUp();
             }
         });
 
@@ -87,7 +87,7 @@ public class SignUpFragment extends Fragment {
         return view;
     }
 
-    public void signUp(View view) {
+    public void signUp() {
 
         hideKeyboard(getActivity());
 
