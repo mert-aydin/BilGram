@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">BilGram</string>
-    <string name="add_post">Add Post</string>
     <string name="enter_post_description">Enter post description</string>
     <string name="post">POST</string>
     <string name="post_hint">Click to see gallery or shake your phone for camera</string>
