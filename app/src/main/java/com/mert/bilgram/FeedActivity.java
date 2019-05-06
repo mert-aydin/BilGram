@@ -107,10 +107,10 @@ public class FeedActivity extends AppCompatActivity {
 
         if (mAuth.getCurrentUser().getEmail().equals(userEmailFromFB.get(i))) {
 
-            final EditText edittext = new EditText(FeedActivity.this);
+            final EditText edittext = new EditText(this);
             edittext.setText(userPostDescFromFB.get(i));
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(FeedActivity.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Edit or Delete")
                     .setView(edittext)
                     .setMessage("Do you want to edit or delete this post?")

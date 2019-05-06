@@ -146,8 +146,9 @@ public class UploadActivity extends AppCompatActivity {
 
     public void post(View view) {
 
-        Toast.makeText(this, "Posting...", Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "Posting...", Toast.LENGTH_LONG).show();
 
+        postBtn.setText(getString(R.string.posting));
         postBtn.setEnabled(false);
         postDesc.setEnabled(false);
         mShaker.pause();
