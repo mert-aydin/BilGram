@@ -8,7 +8,7 @@ Firebase based photo sharing application.
 
 Create a Firebase database with following structure.
 
-![Screen Shot 2019-05-06 at 11 47 14](https://user-images.githubusercontent.com/22095755/57219965-61871900-7002-11e9-8d46-b9ef940193db.png)
+![Screen Shot 2019-05-06 at 11 47 14](https://user-images.githubusercontent.com/22095755/57220602-a14f0000-7004-11e9-81e0-dfe66df4702d.png)
 
 ### Step 2:
 
