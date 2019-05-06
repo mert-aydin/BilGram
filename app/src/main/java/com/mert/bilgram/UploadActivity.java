@@ -7,18 +7,19 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -39,7 +40,6 @@ import java.util.Locale;
 import java.util.UUID;
 
 public class UploadActivity extends AppCompatActivity {
-
 
     private static final int REQUEST_PICK_IMAGE = 111;
     ImageView postImage;
@@ -74,7 +74,6 @@ public class UploadActivity extends AppCompatActivity {
         postImage = findViewById(R.id.postImageView);
         postDesc = findViewById(R.id.postDescET);
         postBtn = findViewById(R.id.postBtn);
-
 
         if (ContextCompat.checkSelfPermission(UploadActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(UploadActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
@@ -145,8 +144,6 @@ public class UploadActivity extends AppCompatActivity {
     }
 
     public void post(View view) {
-
-        //Toast.makeText(this, "Posting...", Toast.LENGTH_LONG).show();
 
         postBtn.setText(getString(R.string.posting));
         postBtn.setEnabled(false);

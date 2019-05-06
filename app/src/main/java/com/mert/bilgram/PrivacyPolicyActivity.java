@@ -1,15 +1,17 @@
 package com.mert.bilgram;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
 import android.webkit.WebView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 public class PrivacyPolicyActivity extends AppCompatActivity {
 
@@ -34,7 +36,6 @@ public class PrivacyPolicyActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
     }
 
     public String loadJSONFromAsset() {
@@ -45,7 +46,7 @@ public class PrivacyPolicyActivity extends AppCompatActivity {
             byte[] buffer = new byte[size];
             inputStream.read(buffer);
             inputStream.close();
-            json = new String(buffer, "UTF-8");
+            json = new String(buffer, StandardCharsets.UTF_8);
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
