@@ -89,7 +89,6 @@ public class FavoritesActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
     }
 
     public void unSave(final int i) {

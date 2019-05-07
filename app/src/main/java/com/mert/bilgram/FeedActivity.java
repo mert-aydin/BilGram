@@ -1,10 +1,16 @@
 package com.mert.bilgram;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -22,6 +28,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,6 +38,9 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.novoda.merlin.Connectable;
+import com.novoda.merlin.Disconnectable;
+import com.novoda.merlin.Merlin;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,6 +56,8 @@ public class FeedActivity extends AppCompatActivity {
     ArrayList<String> userEmailFromFB = new ArrayList<>(), userImageFromFB = new ArrayList<>(), userPostDescFromFB = new ArrayList<>(), postIDsFromFB = new ArrayList<>();
     RecyclerViewAdapter adapter = new RecyclerViewAdapter(userEmailFromFB, userPostDescFromFB, userImageFromFB, this, this);
     SharedPreferences mPrefs;
+    FloatingActionButton fab;
+    Merlin merlin;
 
     static SQLiteDatabase database;
 
@@ -61,9 +73,87 @@ public class FeedActivity extends AppCompatActivity {
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
             setTheme(R.style.AppThemeDark);
 
-        getDataFromFirebase();
+        merlin = new Merlin.Builder().withAllCallbacks().build(this);
+
+        merlin.registerConnectable(new Connectable() {
+            @Override
+            public void onConnect() {
+                fab.setBackgroundTintList(ColorStateList.valueOf(FeedActivity.this.getColor(android.R.color.holo_red_dark)));
+                fab.setImageDrawable(FeedActivity.this.getDrawable(R.drawable.ic_add_white_24dp));
+
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        goToUploadActivity(v);
+                    }
+                });
+            }
+        });
+
+        merlin.registerDisconnectable(new Disconnectable() {
+            @Override
+            public void onDisconnect() {
+                fab.setBackgroundTintList(ColorStateList.valueOf(Color.DKGRAY));
+                fab.setImageDrawable(getResources().getDrawable(android.R.drawable.stat_sys_warning));
+
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(FeedActivity.this, FeedActivity.this.getString(R.string.connection_error), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
 
         setContentView(R.layout.activity_feed);
+        fab = findViewById(R.id.fab);
+
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null && activeNetwork.isConnected();
+
+        if (isConnected) {
+
+            getDataFromFirebase();
+
+        } else {
+
+            fab.setBackgroundTintList(ColorStateList.valueOf(Color.DKGRAY));
+            fab.setImageDrawable(getResources().getDrawable(android.R.drawable.stat_sys_warning));
+
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(FeedActivity.this, FeedActivity.this.getString(R.string.connection_error), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            database = openOrCreateDatabase("Posts", MODE_PRIVATE, null);
+            database.execSQL("CREATE TABLE IF NOT EXISTS posts (id VARCHAR, url VARCHAR, postDesc VARCHAR, useremail VARCHAR)");
+
+            Cursor cursor = FeedActivity.database.rawQuery("SELECT * FROM posts ORDER BY id DESC", null);
+
+            int IdIndex = cursor.getColumnIndex("id");
+            int urlIndex = cursor.getColumnIndex("url");
+            int postDescIndex = cursor.getColumnIndex("postDesc");
+            int userEmailIndex = cursor.getColumnIndex("useremail");
+
+            cursor.moveToFirst();
+
+            do {
+
+                postIDsFromFB.add(cursor.getString(IdIndex));
+                userImageFromFB.add(cursor.getString(urlIndex));
+                userEmailFromFB.add(cursor.getString(userEmailIndex));
+                userPostDescFromFB.add(cursor.getString(postDescIndex));
+                adapter.notifyDataSetChanged();
+
+            } while (cursor.moveToNext());
+
+            cursor.close();
+
+        }
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
@@ -199,6 +289,10 @@ public class FeedActivity extends AppCompatActivity {
 
     public void getDataFromFirebase() {
 
+        database = openOrCreateDatabase("Posts", MODE_PRIVATE, null);
+        database.execSQL("CREATE TABLE IF NOT EXISTS posts (id VARCHAR, url VARCHAR, postDesc VARCHAR, useremail VARCHAR)");
+        database.execSQL("DELETE FROM Posts");
+
         DatabaseReference newReference = firebaseDatabase.getReference("Posts");
         newReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -215,6 +309,14 @@ public class FeedActivity extends AppCompatActivity {
                     userPostDescFromFB.add(0, hashMap.get("postDesc"));
                     userImageFromFB.add(0, hashMap.get("downloadURL"));
                     postIDsFromFB.add(0, hashMap.get("ID"));
+
+                    String sqlString = "INSERT INTO posts (id, url, postDesc, useremail) VALUES (?, ?, ?, ?)";
+                    SQLiteStatement statement = database.compileStatement(sqlString);
+                    statement.bindString(1, postIDsFromFB.get(0));
+                    statement.bindString(2, userImageFromFB.get(0));
+                    statement.bindString(3, userPostDescFromFB.get(0));
+                    statement.bindString(4, userEmailFromFB.get(0));
+                    statement.execute();
 
                     adapter.notifyDataSetChanged();
                 }
@@ -284,4 +386,11 @@ public class FeedActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        merlin.bind();
+    }
+
 }

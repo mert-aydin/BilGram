@@ -42,6 +42,10 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <service
+            android:name="com.novoda.merlin.MerlinService"
+            android:exported="false" />
+
     </application>
 
 </manifest>

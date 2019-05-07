@@ -12,4 +12,5 @@
     <string name="sign_in">SIGN IN</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="posting">Posting…</string>
+    <string name="connection_error">Connection Error!</string>
 </resources>

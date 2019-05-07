@@ -60,7 +60,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        Log.e("RecyclerViewAdapter", "getItemCount: " + userEmail.size());
+        Log.i("RecyclerViewAdapter", "getItemCount: " + userEmail.size());
         return userEmail.size();
     }
 
