@@ -4,7 +4,6 @@
     <string name="post">POST</string>
     <string name="post_hint">Click to see gallery or shake your phone for camera</string>
     <string name="sign_out">Sign Out</string>
-    <string name="dark_mode">Dark Mode</string>
     <string name="liked_posts">Liked Posts</string>
     <string name="e_mail">E-mail</string>
     <string name="password">Password</string>
@@ -13,4 +12,19 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="posting">Posting…</string>
     <string name="connection_error">Connection Error!</string>
+    <string name="liked">Liked!</string>
+    <string name="edit_or_delete">Edit or Delete</string>
+    <string name="edit_or_delete_desc">Do you want to edit or delete this post?</string>
+    <string name="delete">Delete</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="you_are_deleting_post_permanently">You are about to delete this post permanently.</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="edit">EDIT</string>
+    <string name="share_a_post">Share a Post</string>
+    <string name="post_shared">Post Shared!</string>
+    <string name="sign_up_successful">SIGN UP SUCCESSFUL</string>
+    <string name="remove">Remove</string>
+    <string name="remove_from_favourites">Do you want to remove this post from your Favourites</string>
+    <string name="removed_from_favourites">Post removed from Favourites</string>
 </resources>
